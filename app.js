@@ -2,21 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const https = require('https');
-// const routerProyecto = require('./router/proyectos');
+const models = require('./models');
+const routerProyecto = require('./router/proyectos');
+const proyectos = require('./models/proyectos');
 // const routerDonadores = require('./router/donadores');
 // const routerDonatarios = require('./router/donatarios');
 const app = express();
 const port = 4000;
 
-// app.use(cors());
-// app.use(express.json());
+app.use(cors());
+app.use(express.json());
 
-// app.use('/proyectos', routerProyecto);
+app.use('/proyectos', routerProyecto);
 // app.use('/donadores', routerDonadores);
 // app.use('/donatarios', routerDonatarios);
 
 app.get('/', (req, res) => {
-    res.send('Hola mundo!!!');
+    res.send("Hola mundo");
 });
 
 // https.createServer({
@@ -38,6 +40,7 @@ const httpsServer = https.createServer(credenciales, app);
 
 httpsServer.listen(port, () => {
     console.log('Servidor https escuchando por el puerto: '. port);
+    // consultaProyectos();
 }).on('error', err => {
     console.log('Error al iniciar el servidor: ', err);
 });
@@ -46,3 +49,11 @@ httpsServer.listen(port, () => {
 // }).on('error', err => {
 //     console.log('Error al iniciar el servidor:', err);
 // });
+
+const consultaProyectos = async () => {
+    r = await models.Proyectos.findAll();
+    await r.forEach(p => {
+        console.log(p.dataValues);
+    });
+    models.sequelize.close();
+}
