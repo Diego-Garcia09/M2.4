@@ -20,39 +20,17 @@ app.get('/', (req, res) => {
     res.send("Hola mundo");
 });
 
-// https.createServer({
-//     cert: fs.readFileSync('certificado.crt'),
-//     key: fs.readFileSync('certificado.key')
-// }, app).listen(port, function(){
-//     console.log('Servidor escuchando por el puerto:', port);
-// })
-
 const llavePrivada = fs.readFileSync("server-key.pem");
 const certificado = fs.readFileSync("server-cert.pem");
 const credenciales = {
     key: llavePrivada,
     cert: certificado,
-    // passphrase: "password"
 };
 
 const httpsServer = https.createServer(credenciales, app);
 
 httpsServer.listen(port, () => {
     console.log('Servidor https escuchando por el puerto: '. port);
-    // consultaProyectos();
 }).on('error', err => {
     console.log('Error al iniciar el servidor: ', err);
 });
-// app.listen(port, () => {
-//     console.log('Servidor escuchando por el puerto:', port);
-// }).on('error', err => {
-//     console.log('Error al iniciar el servidor:', err);
-// });
-
-const consultaProyectos = async () => {
-    r = await models.Proyectos.findAll();
-    await r.forEach(p => {
-        console.log(p.dataValues);
-    });
-    models.sequelize.close();
-}
