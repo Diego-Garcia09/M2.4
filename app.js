@@ -4,9 +4,8 @@ const fs = require('fs');
 const https = require('https');
 const models = require('./models');
 const routerProyecto = require('./router/proyectos');
-const proyectos = require('./models/proyectos');
-// const routerDonadores = require('./router/donadores');
-// const routerDonatarios = require('./router/donatarios');
+const routerPersona = require('./router/persona');
+const routerDonadores = require('./router/donadores');
 const app = express();
 const port = 4000;
 
@@ -14,8 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/proyectos', routerProyecto);
-// app.use('/donadores', routerDonadores);
-// app.use('/donatarios', routerDonatarios);
+app.use('/personas', routerPersona);
+app.use('/donadores', routerDonadores);
 
 app.get('/', (req, res) => {
     res.send("Hola mundo");
